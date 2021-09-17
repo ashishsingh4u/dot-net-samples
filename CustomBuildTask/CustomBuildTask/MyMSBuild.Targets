@@ -1,0 +1,21 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="MyTarget">
+	<UsingTask AssemblyFile="CustomBuildTask.dll" TaskName="CustomBuildTask.MyTask"/>
+
+	<!--<PropertyGroup>
+		<OutputPath>c:\temp</OutputPath>
+	</PropertyGroup>-->
+
+	<Target Name="MyTarget">
+		<!--<SetEnvironmentVariable Name="OutputPath" value="$(OutputPath)" />-->
+		<MyTask
+			MachineName="serverName"
+			ServiceName="aService"
+			ServiceDisplayName="A Service"
+			PhysicalLocation="C:\Location\dude.exe"
+			StartMode="Automatic"
+			UserName="user"
+			Password="password"
+			Dependencies="MSMQ,hlpsvc"
+		/>
+	</Target>
+</Project>

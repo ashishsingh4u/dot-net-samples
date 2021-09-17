@@ -1,0 +1,67 @@
+﻿<?xml version="1.0"?>
+<project name="TechieNotes" default="build">
+  <property name="basename" value="TechieNotes"/>
+  <property name="debug" value="true"/>
+  <property name="build.dir" value="bin"/>
+  <property name="configuration" value="Debug"/>
+  <property name="version" value="1.0.0.0"/>
+  <if test="${property::exists('CCNetLabel')}">
+    <property name="version" value="${CCNetLabel}"/>
+  </if>
+  <asminfo output="CommonAssemblyInfo.cs" language="CSharp">
+    <imports>
+      <import namespace="System" />
+      <import namespace="System.Reflection" />
+    </imports>
+    <attributes>
+      <attribute type="AssemblyVersionAttribute" value="${version}" />
+      <attribute type="AssemblyCopyrightAttribute" value="Copyright (c) 2010 Techie Notes" />
+      <attribute type="AssemblyCompanyAttribute" value="Techie Notes" />
+      <attribute type="AssemblyProductAttribute" value="Techie Notes Sample" />
+    </attributes>
+  </asminfo>
+
+  <target name="clean" description="cleans build directory">
+    <delete dir="${build.dir}" verbose="false" if="${directory::exists(build.dir)}" />
+  </target>
+
+  <target name="debug" depends="clean">
+    <property name="debug" value="true" />
+    <property name="configuration" value="Debug"/>
+    <call target="build"/>
+  </target>
+
+  <target name="release" depends="clean">
+    <property name="debug" value="false" />
+    <property name="configuration" value="Release"/>
+    <call target="build"/>
+  </target>
+
+  <target name="build">
+    <mkdir dir="${build.dir}/${configuration}"/>
+    <csc target="winexe" output="${build.dir}/${configuration}/${basename}.exe" debug="${debug}" doc="${build.dir}/${configuration}/TechieNotesDoc.xml">
+      <nowarn>
+        <warning number="1591"/>
+      </nowarn>
+      <sources>
+        <include name="**/*.cs" />
+        <exclude name="**/AssemblyInfo.cs"/>
+        <include name="**/CommonAssemblyInfo.cs"/>
+      </sources>
+      <resources dynamicprefix="true" prefix="TechieNotes">
+        <include name="**/*.resx"/>
+      </resources>
+      <references>
+        <include name="System.dll" />
+        <include name="System.Core.dll" />
+        <include name="System.Data.dll" />
+        <include name="System.Data.DataSetExtensions.dll" />
+        <include name="System.Deployment.dll" />
+        <include name="System.Drawing.dll" />
+        <include name="System.Windows.Forms.dll" />
+        <include name="System.Xml.dll" />
+        <include name="System.Xml.Linq.dll" />
+      </references>
+    </csc>
+  </target>
+</project>
